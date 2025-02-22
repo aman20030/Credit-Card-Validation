@@ -1,53 +1,33 @@
 import React, { useState } from "react";
 import validator from "validator";
-
+import "./App.css"; 
 const App = () => {
-  const [creditCard, setCreditCard] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
-  const [cardType, setCardType] = useState("");
+  const [cardNumber, setCardNumber] = useState("");
+  const [message, setMessage] = useState("");
 
-  const detectCardType = (number) => {
-    const cardPatterns = {
-      Visa: /^4/,
-      MasterCard: /^5[1-5]/,
-      Amex: /^3[47]/,
-      Discover: /^6/,
-    };
-
-    for (let type in cardPatterns) {
-      if (cardPatterns[type].test(number)) return type;
-    }
-    return "";
-  };
-
-  const handleChange = (e) => {
-    let value = e.target.value.replace(/\D/g, ""); // Remove non-numeric characters
-    let formattedValue = value.replace(/(\d{4})/g, "$1 ").trim(); // Add spaces
-
-    setCreditCard(formattedValue);
-    setCardType(detectCardType(value));
-
-    if (validator.isCreditCard(value)) {
-      setErrorMessage("✅ Valid Credit Card Number");
+  const validateCard = () => {
+    if (validator.isCreditCard(cardNumber)) {
+      setMessage("✅ Valid Credit Card Number!");
     } else {
-      setErrorMessage("❌ Enter a valid Credit Card Number");
+      setMessage("❌ Invalid Credit Card Number! Please check again.");
     }
   };
 
   return (
-    <div style={{ textAlign: "center", marginTop: "50px" }}>
+    <div style={{ textAlign: "center", marginTop: "50px",  }}>
       <h2>Credit Card Validator</h2>
       <input
         type="text"
         placeholder="Enter Credit Card Number"
-        value={creditCard}
-        onChange={handleChange}
-        maxLength="19"
+        value={cardNumber}
+        onChange={(e) => setCardNumber(e.target.value)}
+        style={{ padding: "10px", width: "300px", fontSize: "16px" }}
       />
-      <p>{cardType ? `Card Type: ${cardType}` : "Card Type: Unknown"}</p>
-      <p style={{ color: errorMessage.includes("❌") ? "red" : "green" }}>
-        {errorMessage}
-      </p>
+      <br /><br />
+      <button onClick={validateCard} style={{ padding: "10px 20px", fontSize: "16px" }}>
+        Validate
+      </button>
+      <p style={{ fontSize: "18px", fontWeight: "bold", marginTop: "20px" }}>{message}</p>
     </div>
   );
 };
