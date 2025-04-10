@@ -1,39 +1,73 @@
-.container {
+body {
+  background: linear-gradient(to bottom right, #141e30, #243b55);
+  font-family: "Segoe UI", sans-serif;
+  color: white;
+  margin: 0;
+  padding: 0;
+}
+
+.app-container {
   text-align: center;
-  margin-top: 50px;
-  background-color: black;
-  color: orange;
-  padding: 20px;
-  border-radius: 10px;
-  width: 400px;
-  margin: auto;
+  padding: 50px 20px;
 }
 
-input {
-  padding: 10px;
-  width: 300px;
-  font-size: 16px;
-  border: 2px solid orange;
-  background-color: black;
-  color: white;
+.card-preview {
+  width: 350px;
+  height: 200px;
+  margin: 30px auto;
+  background: linear-gradient(135deg, #3e8ef7, #6a82fb);
+  border-radius: 20px;
+  padding: 30px 20px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  position: relative;
+  transition: all 0.3s ease-in-out;
 }
 
-button {
-  padding: 10px 20px;
+.card-chip {
+  width: 50px;
+  height: 35px;
+  background: gold;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.card-number {
+  font-size: 22px;
+  letter-spacing: 2px;
+  margin-bottom: 20px;
+}
+
+.card-type {
+  font-size: 18px;
+  text-align: right;
+  font-weight: bold;
+}
+
+.card-input {
+  padding: 12px;
+  width: 320px;
   font-size: 16px;
-  background-color: orange;
-  color: white;
+  border-radius: 8px;
   border: none;
-  cursor: pointer;
+  outline: none;
+  box-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
   margin-top: 10px;
 }
 
-button:hover {
-  background-color: darkorange;
+.card-input:focus {
+  box-shadow: 0 0 8px #00e0ff;
 }
 
 .message {
+  margin-top: 20px;
   font-size: 18px;
   font-weight: bold;
-  margin-top: 20px;
+}
+
+.message.valid {
+  color: #00ff9d;
+}
+
+.message.invalid {
+  color: #ff4d4d;
 }

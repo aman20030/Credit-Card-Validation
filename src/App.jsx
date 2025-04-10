@@ -12,7 +12,7 @@ const formatCardNumber = (value) => {
 
 const detectCardType = (number) => {
   const result = creditCardType(number.replace(/\s/g, ""));
-  return result.length > 0 ? result[0].niceType : "Unknown";
+  return result.length > 0 ? result[0].niceType : "";
 };
 
 const App = () => {
@@ -22,47 +22,44 @@ const App = () => {
 
   useEffect(() => {
     const cleanNumber = cardNumber.replace(/\s/g, "");
+    const type = detectCardType(cleanNumber);
+    setCardType(type);
 
     if (cleanNumber.length >= 12) {
       const isValid = validator.isCreditCard(cleanNumber);
-      const type = detectCardType(cleanNumber);
-      setCardType(type);
       setMessage(isValid ? "✅ Valid Credit Card Number!" : "❌ Invalid Credit Card Number!");
     } else {
       setMessage("");
-      setCardType("");
     }
   }, [cardNumber]);
 
   const handleChange = (e) => {
-    const value = formatCardNumber(e.target.value);
-    setCardNumber(value);
+    const formatted = formatCardNumber(e.target.value);
+    setCardNumber(formatted);
   };
 
   return (
-    <div style={{ textAlign: "center", marginTop: "60px", fontFamily: "sans-serif" }}>
+    <div className="app-container">
       <h2>💳 Credit Card Validator</h2>
+
+      <div className="card-preview">
+        <div className="card-chip" />
+        <div className="card-number">
+          {cardNumber || "#### #### #### ####"}
+        </div>
+        <div className="card-type">{cardType}</div>
+      </div>
+
       <input
         type="text"
         placeholder="Enter Credit Card Number"
         value={cardNumber}
         onChange={handleChange}
         maxLength="19"
-        style={{
-          padding: "12px",
-          width: "320px",
-          fontSize: "16px",
-          borderRadius: "8px",
-          border: "1px solid #ccc",
-        }}
+        className="card-input"
       />
-      <br /><br />
-      {cardType && (
-        <p style={{ fontSize: "16px", fontWeight: "500", color: "#555" }}>
-          Card Type: <strong>{cardType}</strong>
-        </p>
-      )}
-      <p style={{ fontSize: "18px", fontWeight: "bold", marginTop: "10px", color: message.includes("Valid") ? "green" : "red" }}>
+
+      <p className={`message ${message.includes("Valid") ? "valid" : "invalid"}`}>
         {message}
       </p>
     </div>
