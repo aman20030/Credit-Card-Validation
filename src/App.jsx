@@ -10,10 +10,17 @@ const formatCardNumber = (value) => {
     .trim();
 };
 
-const detectCardType = (number) => {
+const detectCardDetails = (number) => {
   const result = creditCardType(number.replace(/\s/g, ""));
-  return result.length > 0 ? result[0].niceType : "";
+  if (result.length > 0) {
+    return {
+      type: result[0].niceType,
+      cardCategory: result[0].type ? result[0].type : "Unknown",
+    };
+  }
+  return { type: "", cardCategory: "" };
 };
+
 
 const App = () => {
   const [cardNumber, setCardNumber] = useState("");
@@ -22,16 +29,22 @@ const App = () => {
 
   useEffect(() => {
     const cleanNumber = cardNumber.replace(/\s/g, "");
-    const type = detectCardType(cleanNumber);
-    setCardType(type);
-
+  
+    if (cleanNumber.length >= 4) {
+      const { type, cardCategory } = detectCardDetails(cleanNumber);
+      setCardType(`${type} (${cardCategory.charAt(0).toUpperCase() + cardCategory.slice(1)})`);
+    } else {
+      setCardType("");
+    }
+  
     if (cleanNumber.length >= 12) {
       const isValid = validator.isCreditCard(cleanNumber);
-      setMessage(isValid ? "✅ Valid Credit Card Number!" : "❌ Invalid Credit Card Number!");
+      setMessage(isValid ? "✅ Valid Card Number!" : "❌ Invalid Card Number!");
     } else {
       setMessage("");
     }
   }, [cardNumber]);
+  
 
   const handleChange = (e) => {
     const formatted = formatCardNumber(e.target.value);
@@ -39,15 +52,17 @@ const App = () => {
   };
 
   return (
-    <div className="app-container">
-      <h2>💳 Credit Card Validator</h2>
+    <div className="app-container fade-in">
+      <h1 className="title">Credit Card Validator</h1>
 
-      <div className="card-preview">
+      <div className="card-preview animated-glass">
         <div className="card-chip" />
         <div className="card-number">
           {cardNumber || "#### #### #### ####"}
         </div>
-        <div className="card-type">{cardType}</div>
+        {cardType && ( <div className="card-type">{cardType}</div>
+)}
+
       </div>
 
       <input
@@ -62,6 +77,20 @@ const App = () => {
       <p className={`message ${message.includes("Valid") ? "valid" : "invalid"}`}>
         {message}
       </p>
+
+      {/* Developer Card */}
+      <div className="developer-card glass">
+        <h3>👨‍💻 Developed by Aman Singhal</h3>
+        <p>B.Tech CSE Student | Frontend Developer</p>
+        <a
+          href="https://amansinghal-portfolio.netlify.app/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="portfolio-link"
+        >
+          Visit Portfolio →
+        </a>
+      </div>
     </div>
   );
 };
