@@ -55,15 +55,27 @@ const App = () => {
     <div className="app-container fade-in">
       <h1 className="title">Credit Card Validator</h1>
 
-      <div className="card-preview animated-glass">
-        <div className="card-chip" />
-        <div className="card-number">
-          {cardNumber || "#### #### #### ####"}
-        </div>
-        {cardType && ( <div className="card-type">{cardType}</div>
-)}
-
+      <div className="card-preview-wrapper">
+  <div className="card-preview-3d">
+    {/* Front Side */}
+    <div className="card-side card-front animated-glass">
+      <div className="card-chip" />
+      <div className="card-number">
+        {cardNumber || "#### #### #### ####"}
       </div>
+      {cardType && <div className="card-type">{cardType}</div>}
+    </div>
+
+    {/* Back Side */}
+    <div className="card-side card-back animated-glass">
+      <div className="card-back-content">
+        <p className="card-back-text">💳 Secure Transaction</p>
+        <p className="card-back-text">Developed by Aman Singhal</p>
+      </div>
+    </div>
+  </div>
+</div>
+
 
       <input
         type="text"
